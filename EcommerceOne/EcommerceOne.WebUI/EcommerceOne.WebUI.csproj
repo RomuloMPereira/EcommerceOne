@@ -121,6 +121,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductManagerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -170,6 +171,10 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\ProductManager\Index.cshtml" />
+    <Content Include="Views\ProductManager\Create.cshtml" />
+    <Content Include="Views\ProductManager\Edit.cshtml" />
+    <Content Include="Views\ProductManager\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -179,6 +184,24 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EcommerceOne.Core\EcommerceOne.Core.csproj">
+      <Project>{69444dbc-26b1-4020-aab7-92a2fba8ac57}</Project>
+      <Name>EcommerceOne.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EcommerceOne.DataAccess.InMemory\EcommerceOne.DataAccess.InMemory.csproj">
+      <Project>{c2d77953-e9e9-4103-a492-0484473d451d}</Project>
+      <Name>EcommerceOne.DataAccess.InMemory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EcommerceOne.DataAccess.SQL\EcommerceOne.DataAccess.SQL.csproj">
+      <Project>{8163f27e-bf07-46af-b0ff-9e9c118fd0a9}</Project>
+      <Name>EcommerceOne.DataAccess.SQL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EcommerceOne.Services\EcommerceOne.Services.csproj">
+      <Project>{c855850a-3591-46c2-bfe3-24561985d0ec}</Project>
+      <Name>EcommerceOne.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
