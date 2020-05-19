@@ -39,14 +39,14 @@ namespace EcommerceOne.WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Product product)
+        public ActionResult Create(ProductManagerViewModel productManager)
         {
             if (!ModelState.IsValid)
             {
-                return View(product);
+                return View(productManager);
             } else
             {
-                context.Insert(product);
+                context.Insert(productManager.Product);
                 context.Commit();
 
                 return RedirectToAction("Index");
@@ -70,7 +70,7 @@ namespace EcommerceOne.WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit (Product product, string Id)
+        public ActionResult Edit (ProductManagerViewModel productManager, string Id)
         {
             Product productToEdit = context.Find(Id);
             if (productToEdit == null)
@@ -81,14 +81,14 @@ namespace EcommerceOne.WebUI.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    return View(product);
+                    return View(productManager);
                 }
 
-                productToEdit.Category = product.Category;
-                productToEdit.Description = product.Description;
-                productToEdit.Image = product.Image;
-                productToEdit.Name = product.Name;
-                productToEdit.Price = product.Price;
+                productToEdit.Category = productManager.Product.Category;
+                productToEdit.Description = productManager.Product.Description;
+                productToEdit.Image = productManager.Product.Image;
+                productToEdit.Name = productManager.Product.Name;
+                productToEdit.Price = productManager.Product.Price;
 
                 context.Commit();
                 return RedirectToAction("Index");
