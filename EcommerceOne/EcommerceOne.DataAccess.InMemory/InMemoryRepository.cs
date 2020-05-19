@@ -1,4 +1,5 @@
-﻿using EcommerceOne.Core.Models;
+﻿using EcommerceOne.Core.Contracts;
+using EcommerceOne.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EcommerceOne.DataAccess.InMemory
 {
-    public class InMemoryRepository<T> where T : BaseEntity
+    public class InMemoryRepository<T> : IRepository<T> where T : BaseEntity
     {
         ObjectCache cache = MemoryCache.Default;
         List<T> items;
@@ -18,7 +19,7 @@ namespace EcommerceOne.DataAccess.InMemory
         {
             className = typeof(T).Name;
             items = cache[className] as List<T>;
-            if(items == null)
+            if (items == null)
             {
                 items = new List<T>();
             }
@@ -38,10 +39,11 @@ namespace EcommerceOne.DataAccess.InMemory
         {
             T tToUpdate = items.Find(i => i.Id == t.Id);
 
-            if(tToUpdate != null)
+            if (tToUpdate != null)
             {
                 tToUpdate = t;
-            } else
+            }
+            else
             {
                 throw new Exception(className + " not found");
             }
@@ -51,10 +53,11 @@ namespace EcommerceOne.DataAccess.InMemory
         {
             T t = items.Find(i => i.Id == Id);
 
-            if(t != null)
+            if (t != null)
             {
                 return t;
-            } else
+            }
+            else
             {
                 throw new Exception(className + " not found");
             }

@@ -1,4 +1,5 @@
-﻿using EcommerceOne.Core.Models;
+﻿using EcommerceOne.Core.Contracts;
+using EcommerceOne.Core.Models;
 using EcommerceOne.Core.ViewModels;
 using EcommerceOne.DataAccess.InMemory;
 using System;
@@ -11,13 +12,13 @@ namespace EcommerceOne.WebUI.Controllers
 {
     public class ProductManagerController : Controller
     {
-        InMemoryRepository<Product> context;
-        InMemoryRepository<ProductCategory> productCategories;
+        IRepository<Product> context;
+        IRepository<ProductCategory> productCategories;
 
-        public ProductManagerController()
+        public ProductManagerController(IRepository<Product> productContext, IRepository<ProductCategory> productCategoryContext)
         {
-            context = new InMemoryRepository<Product>();
-            productCategories = new InMemoryRepository<ProductCategory>();
+            this.context = productContext;
+            this.productCategories = productCategoryContext;
         }
 
         // GET: ProductManager
