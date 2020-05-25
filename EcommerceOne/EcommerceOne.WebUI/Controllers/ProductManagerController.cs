@@ -4,6 +4,7 @@ using EcommerceOne.Core.ViewModels;
 using EcommerceOne.DataAccess.InMemory;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -20,8 +21,6 @@ namespace EcommerceOne.WebUI.Controllers
             this.context = productContext;
             this.productCategories = productCategoryContext;
         }
-
-        // GET: ProductManager
         public ActionResult Index()
         {
             List<Product> products = context.Collection().ToList();
@@ -39,13 +38,19 @@ namespace EcommerceOne.WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(ProductManagerViewModel productManager)
+        public ActionResult Create(ProductManagerViewModel productManager, HttpPostedFileBase file)
         {
             if (!ModelState.IsValid)
             {
                 return View(productManager);
             } else
             {
+                if(file != null)
+                {
+                    productManager.Product.Image = productManager.Product.Id + Path.GetExtension(file.FileName);
+                    file.SaveAs(Server.MapPath("//Content//ProductImages//") + productManager.Product.Image);
+                }
+
                 context.Insert(productManager.Product);
                 context.Commit();
 
@@ -70,7 +75,7 @@ namespace EcommerceOne.WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit (ProductManagerViewModel productManager, string Id)
+        public ActionResult Edit (ProductManagerViewModel productManager, string Id, HttpPostedFileBase file)
         {
             Product productToEdit = context.Find(Id);
             if (productToEdit == null)
@@ -84,9 +89,14 @@ namespace EcommerceOne.WebUI.Controllers
                     return View(productManager);
                 }
 
+                if(file != null)
+                {
+                    productToEdit.Image = productManager.Product.Id + Path.GetExtension(file.FileName);
+                    file.SaveAs(Server.MapPath("//Content//ProductImages//") + productToEdit.Image);
+                }
+
                 productToEdit.Category = productManager.Product.Category;
                 productToEdit.Description = productManager.Product.Description;
-                productToEdit.Image = productManager.Product.Image;
                 productToEdit.Name = productManager.Product.Name;
                 productToEdit.Price = productManager.Product.Price;
 
