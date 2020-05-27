@@ -12,14 +12,14 @@ namespace EcommerceOne.DataAccess.SQL.Migrations
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128),
+                        BasketId = c.String(maxLength: 128),
                         ProductId = c.String(),
                         Quantity = c.Int(nullable: false),
                         CreatedAt = c.DateTimeOffset(nullable: false, precision: 7),
-                        Basket_Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Baskets", t => t.Basket_Id)
-                .Index(t => t.Basket_Id);
+                .ForeignKey("dbo.Baskets", t => t.BasketId)
+                .Index(t => t.BasketId);
             
             CreateTable(
                 "dbo.Baskets",
@@ -34,8 +34,8 @@ namespace EcommerceOne.DataAccess.SQL.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.BasketItems", "Basket_Id", "dbo.Baskets");
-            DropIndex("dbo.BasketItems", new[] { "Basket_Id" });
+            DropForeignKey("dbo.BasketItems", "BasketId", "dbo.Baskets");
+            DropIndex("dbo.BasketItems", new[] { "BasketId" });
             DropTable("dbo.Baskets");
             DropTable("dbo.BasketItems");
         }

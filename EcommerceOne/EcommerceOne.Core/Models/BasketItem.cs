@@ -8,7 +8,7 @@ namespace EcommerceOne.Core.Models
 {
     public class BasketItem : BaseEntity
     {
-        public string Id { get; set; }
+        public string BasketId { get; set; }
         public string ProductId { get; set; }
         public int Quantity { get; set; }
     }

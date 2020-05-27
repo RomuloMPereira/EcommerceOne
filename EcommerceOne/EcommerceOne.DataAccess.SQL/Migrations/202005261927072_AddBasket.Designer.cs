@@ -13,7 +13,7 @@ namespace EcommerceOne.DataAccess.SQL.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202005261808135_AddBasket"; }
+            get { return "202005261927072_AddBasket"; }
         }
         
         string IMigrationMetadata.Source
