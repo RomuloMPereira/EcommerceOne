@@ -2,6 +2,7 @@ using EcommerceOne.Core.Contracts;
 using EcommerceOne.Core.Models;
 using EcommerceOne.DataAccess.InMemory;
 using EcommerceOne.DataAccess.SQL;
+using EcommerceOne.Services;
 using System;
 
 using Unity;
@@ -48,6 +49,9 @@ namespace EcommerceOne.WebUI
             // container.RegisterType<IProductRepository, ProductRepository>();
             container.RegisterType<IRepository<Product>, SQLRepository<Product>>();
             container.RegisterType<IRepository<ProductCategory>, SQLRepository<ProductCategory>>();
+            container.RegisterType<IRepository<Basket>, SQLRepository<Basket>>();
+            container.RegisterType<IRepository<BasketItem>, SQLRepository<BasketItem>>();
+            container.RegisterType<IBasketService, BasketService>();
         }
     }
 }
