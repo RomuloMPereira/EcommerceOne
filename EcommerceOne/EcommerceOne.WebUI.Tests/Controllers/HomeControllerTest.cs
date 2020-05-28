@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Web.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using EcommerceOne.WebUI;
+using EcommerceOne.Core.Contracts;
+using EcommerceOne.Core.Models;
+using EcommerceOne.Core.ViewModels;
 using EcommerceOne.WebUI.Controllers;
+using EcommerceOne.WebUI.Tests.Mocks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EcommerceOne.WebUI.Tests.Controllers
 {
@@ -13,42 +14,17 @@ namespace EcommerceOne.WebUI.Tests.Controllers
     public class HomeControllerTest
     {
         [TestMethod]
-        public void Index()
+        public void IndexPageDoesReturnProducts()
         {
-            //// Arrange
-            //HomeController controller = new HomeController();
+            IRepository<Product> productContext = new MockContext<Product>();
+            productContext.Insert(new Product());
+            IRepository<ProductCategory> productCategoryContext = new MockContext<ProductCategory>();
+            HomeController controller = new HomeController(productContext, productCategoryContext);
 
-            //// Act
-            //ViewResult result = controller.Index() as ViewResult;
+            var result = controller.Index() as ViewResult;
+            var viewModel = (ProductListViewModel) result.ViewData.Model;
 
-            //// Assert
-            //Assert.IsNotNull(result);
-        }
-
-        [TestMethod]
-        public void About()
-        {
-            //// Arrange
-            //HomeController controller = new HomeController();
-
-            //// Act
-            //ViewResult result = controller.About() as ViewResult;
-
-            //// Assert
-            //Assert.AreEqual("Your application description page.", result.ViewBag.Message);
-        }
-
-        [TestMethod]
-        public void Contact()
-        {
-            //// Arrange
-            //HomeController controller = new HomeController();
-
-            //// Act
-            //ViewResult result = controller.Contact() as ViewResult;
-
-            //// Assert
-            //Assert.IsNotNull(result);
+            Assert.AreEqual(1, viewModel.Products.Count());
         }
     }
 }
