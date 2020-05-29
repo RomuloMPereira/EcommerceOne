@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using EcommerceOne.WebUI.Models;
+using EcommerceOne.Core.Models;
+using EcommerceOne.Core.Contracts;
 
 namespace EcommerceOne.WebUI.Controllers
 {
@@ -18,14 +20,11 @@ namespace EcommerceOne.WebUI.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        public AccountController()
-        {
-        }
+        private IRepository<Customer> customerRepository;
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(IRepository<Customer> customerRepository)
         {
-            UserManager = userManager;
-            SignInManager = signInManager;
+            this.customerRepository = customerRepository;
         }
 
         public ApplicationSignInManager SignInManager
@@ -155,6 +154,22 @@ namespace EcommerceOne.WebUI.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    //Register the customer model
+                    Customer customer = new Customer()
+                    {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        Email = model.Email,
+                        City = model.City,
+                        Street = model.Street,
+                        State = model.State,
+                        ZipCode = model.ZipCode,
+                        UserId = user.Id
+                    };
+
+                    customerRepository.Insert(customer);
+                    customerRepository.Commit();
+                    
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
